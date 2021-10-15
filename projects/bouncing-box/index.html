@@ -5,16 +5,20 @@
 	<title>Bouncing Box</title>
 	<script src="jquery.min.js"></script>
 	<style>
+		body{
+			background-color: rgb(255, 255, 255);
+			 
+		}
 		.box {
 			width: 70px;
 			height: 70px;
-			background-color: teal;
+			background-color: rgb(112, 107, 192);
 			font-size: 300%;
 			text-align: center;
 			display: block;
 			position: absolute;
 			top: 100px;
-			left: 450px;  /* <--- Change me! */
+			left: 0px;  /* <--- Change me! */
 		}
 		.board{
 			height: 100vh;
@@ -47,8 +51,9 @@
 			box.on('click', handleBoxClick);
 
 			// moves the Box to a new position on the screen along the X-Axis
-			function moveBoxTo(newPositionX) {
+			function moveBoxTo(newPositionX,newPositionY) {
 				box.css("left", newPositionX);
+				box.css("top",newPositionY);
 			}
 
 			// changes the text displayed on the Box
@@ -63,6 +68,15 @@
 			// TODO 2 - Variable declarations 
 			var PositionX = 0;
 			var points = 0;
+			var speed = 10;
+			var positionY = 0;
+			var speedY =10 ;
+			var boardHeight = jQuery(window).height();
+			var randNum = Math.random() * 100;
+ 
+
+
+
 
 			
 			/* 
@@ -71,20 +85,38 @@
 			turn it around! 
 			*/
 			function update() {
-				PositionX = PositionX + 10;
-				moveBoxTo(PositionX);
+				PositionX += speed;
+				positionY += speedY;
+				moveBoxTo(PositionX,positionY);
 
-			};
+				if (PositionX > boardWidth) {
+					speed = -speed;
+				}
+				
+				if(PositionX < 0) {
+					speed = -speed;
+					
+				}
+				if (positionY > boardHeight){
+					speedY = -speedY;
 
+				}
+				if (positionY < 0 ) {
+					speedY = -speedY;
+				}
+			}
 			/* 
 			This Function will be called each time the box is clicked. Each time it is called,
 			it should increase the points total, increase the speed, and move the box to
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
-			PositionX = 0;
-			points = points + 1;	
-			changeBoxText(points);
+				PositionX = 0;
+				PositionY = 0;
+				points = points + 1;	
+				changeBoxText(points);
+				speed = points+3;
+				speedY = points+3;
 
 
 			};
